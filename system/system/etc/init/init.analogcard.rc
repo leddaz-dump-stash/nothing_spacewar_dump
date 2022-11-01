@@ -1,0 +1,10 @@
+service analogcard_service /system/bin/NFCAnalogCard
+    class core
+    user system
+    group root system
+    disabled
+
+on property:persist.service.analogcard.enable=1
+    start analogcard_service
+on property:persist.service.analogcard.enable=0
+    stop analogcard_service

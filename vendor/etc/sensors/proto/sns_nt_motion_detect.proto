@@ -1,0 +1,18 @@
+// @file sns_nt_motion_detect.proto
+//
+// Defines standard message types for the Nothing Motion Detect Sensor
+//
+// Copyright (c) 2017-2018 Qualcomm Technologies, Inc.
+// All Rights Reserved.
+// Confidential and Proprietary - Qualcomm Technologies, Inc.
+syntax = "proto2";
+import "nanopb.proto";
+
+enum sns_nt_motion_detect_msgid
+{
+    option (nanopb_enumopt).long_names = false;
+
+    SNS_NT_MOTION_DETECT_MSGID_SNS_HORIZON_MOTION_DETECT_EVENT = 2051;
+    SNS_NT_MOTION_DETECT_MSGID_SNS_FINGERPRINT_DISPLAY_DETECT_EVENT = 2052;
+}
+

@@ -1,0 +1,10 @@
+service dumpinfo_service /system/bin/DumpLogInfo
+    class core
+    user system
+    group root system
+    disabled
+
+on property:persist.service.dumplog.enable=1
+    start dumpinfo_service
+on property:persist.service.dumplog.enable=0
+    stop dumpinfo_service

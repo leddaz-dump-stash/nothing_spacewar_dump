@@ -1,0 +1,70 @@
+#Perf|add for dynamic thermal config {@
+on property:persist.sys.thermal.scene=0
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.low.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=1
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.mid.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=2
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.high.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=3
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.benchmark.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=4
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.super.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=5
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.sgame.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=low1
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.low.level1.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=low2
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.low.level2.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=mid1
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.mid.level1.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=mid2
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.mid.level2.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=mid3
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.mid.level3.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=mid4
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.mid.level4.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=high1
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.high.level1.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=high2
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.high.level2.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=high3
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.high.level3.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=high4
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.high.level4.conf"
+    start thermal-engine
+on property:persist.sys.thermal.scene=high5
+    stop thermal-engine
+    setprop persist.vendor.thermal.config "/vendor/etc/thermal.high.level5.conf"
+    start thermal-engine
+#@}

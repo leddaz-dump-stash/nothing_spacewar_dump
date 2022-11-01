@@ -1,0 +1,116 @@
+#add for save log
+on property:persist.sys.apklogfs.size=*
+    setprop apklogfs.size ${persist.sys.apklogfs.size}
+on property:persist.sys.apklogfs.rotate_kbytes=*
+    setprop apklogfs.rotate_kbytes ${persist.sys.apklogfs.rotate_kbytes}
+
+on property:persist.sys.eventlogfs.size=*
+    setprop eventlogfs.size ${persist.sys.eventlogfs.size}
+on property:persist.sys.eventlogfs.rotate_kbytes=*
+    setprop eventlogfs.rotate_kbytes ${persist.sys.eventlogfs.rotate_kbytes}
+
+on property:persist.sys.radiologfs.size=*
+    setprop radiologfs.size ${persist.sys.radiologfs.size}
+on property:persist.sys.radiologfs.rotate_kbytes=*
+    setprop radiologfs.rotate_kbytes ${persist.sys.radiologfs.rotate_kbytes}
+
+on property:persist.sys.kmsglogfs.size=*
+    setprop kmsglogfs.size ${persist.sys.kmsglogfs.size}
+on property:persist.sys.kmsglogfs.rotate_kbytes=*
+    setprop kmsglogfs.rotate_kbytes ${persist.sys.kmsglogfs.rotate_kbytes}
+
+on property:persist.service.apklogfs.enable=1
+    start apk_logfs
+    start kmsg_logfs
+on property:persist.service.apklogfs.enable=0
+    stop apk_logfs
+    stop kmsg_logfs
+on property:persist.service.crashlog.enable=1
+    copy /sys/fs/pstore/console-ramoops-0 /data/config/console-ramoops-0
+    chmod 0444 /data/config/console-ramoops-0
+    start crashlogd
+on property:persist.service.crashlog.enable=0
+    stop crashlogd
+on property:persist.service.eventlogfs.enable=1
+    start events_logfs
+on property:persist.service.eventlogfs.enable=0
+    stop events_logfs
+on property:persist.service.radiologfs.enable=1
+    start radio_logfs
+on property:persist.service.radiologfs.enable=0
+    stop radio_logfs
+
+service apk_logfs /system/bin/logcat -b system -b main -b crash -v threadtime -f /data/logs/aplog -r ${apklogfs.rotate_kbytes:-5000} -n ${apklogfs.size:-30}
+    class core
+    user system
+    disabled
+
+service events_logfs /system/bin/logcat -b events  -v threadtime -f /data/logs/event_log -r ${eventlogfs.rotate_kbytes:-5000} -n ${eventlogfs.size:-30}
+    class core
+    user system
+    disabled
+
+service radio_logfs /system/bin/logcat -b radio  -v threadtime -f /data/logs/radio_log -r ${radiologfs.rotate_kbytes:-5000} -n ${radiologfs.size:-30}
+    class core
+    user system
+    disabled
+
+service kmsg_logfs /system/bin/kernel_kmsg -f /data/logs/kernel_kmsg -r ${kmsglogfs.rotate_kbytes:-1000} -n ${kmsglogfs.size:-20} -v threadtime -K
+    class core
+    file /proc/kmsg r
+    user system
+    disabled
+service crashlogd /system/bin/crashlogd
+    class core
+    file /proc/cmdline r
+    user system
+    disabled
+#end
+
+#tcpdump
+service TcpDump /system/bin/TcpDump
+    class main
+    user root
+    group root system
+    disabled
+    oneshot
+
+on property:sys.tcpdump=1
+    start TcpDump
+
+on property:sys.tcpdump=0
+    stop TcpDump
+
+on property:sys.tcpdump=2
+    start TcpDump
+
+
+on post-fs-data
+    mkdir /data/config 0775 root system
+    copy /mnt/vendor/persist/FSN.txt /data/config/FSN.txt
+    chmod 0444 /data/config/FSN.txt
+    chown system system /data/config/FSN.txt
+    copy /mnt/vendor/persist/PSN.txt /data/config/PSN.txt
+    chmod 0444 /data/config/PSN.txt
+    chown system system /data/config/PSN.txt
+    copy /mnt/vendor/persist/color /data/config/color
+    chmod 0444 /data/config/color
+    chown system system /data/config/color
+
+on property:persist.service.boot_logfs.enable=1
+    copy /dev/block/sde55 /data/logs/logfs
+    chmod 0444 /data/logs/logfs
+    chown system system /data/logs/logfs
+
+#add for A+G sensor calibration
+on property:sys.ssc_drva_test.accel=copy
+   copy /mnt/vendor/persist/sensors/registry/registry/icm4x6xx_0_platform.accel.fac_cal.bias data/config/icm4x6xx_0_platform.accel.fac_cal.bias
+   copy /mnt/vendor/persist/sensors/registry/registry/lsm6dso_0_platform.accel.fac_cal.bias data/config/lsm6dso_0_platform.accel.fac_cal.bias
+   chown system system data/config/icm4x6xx_0_platform.accel.fac_cal.bias
+   chown system system data/config/lsm6dso_0_platform.accel.fac_cal.bias
+
+on property:sys.ssc_drva_test.gyro=copy
+   copy /mnt/vendor/persist/sensors/registry/registry/icm4x6xx_0_platform.gyro.fac_cal.bias data/config/icm4x6xx_0_platform.gyro.fac_cal.bias
+   copy /mnt/vendor/persist/sensors/registry/registry/lsm6dso_0_platform.gyro.fac_cal.bias data/config/lsm6dso_0_platform.gyro.fac_cal.bias
+   chown system system data/config/icm4x6xx_0_platform.gyro.fac_cal.bias
+   chown system system data/config/lsm6dso_0_platform.gyro.fac_cal.bias
