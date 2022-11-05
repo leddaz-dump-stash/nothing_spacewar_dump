@@ -1,0 +1,74 @@
+// @file sns_ois_cal.proto
+//
+// Defines the API for ois manager.
+//
+// Copyright (c) 2019 AKM, Inc.
+// All Rights Reserved.
+// Confidential and Proprietary - AKM, Inc.
+
+syntax = "proto2";
+import "nanopb.proto";
+
+// Message IDs for ois manager
+enum sns_ois_manager_msgid {
+  option (nanopb_enumopt).long_names = false;
+
+  //1. 打开相机初始化参数时候下发命令
+  //2. 校准参数时下发参数
+  SNS_OIS_MANAGER_MSGID_SET_ALGOPARAMS = 524;
+
+  //1. 使能关闭OIS 其他模式参考 AK_OIS_MODE
+  SNS_OIS_MANAGER_MSGID_SET_OIS_MODE = 525;
+
+  //1. 配置AF code
+  SNS_OIS_MANAGER_MSGID_SET_OIS_AF_CFG = 526;
+
+  //1. 上报数据给EIS等用
+  SNS_OIS_MANAGER_MSGID_SNS_OIS_MANAGER_EVENT = 1024;
+
+  //SNS_OIS_MANAGER_MSGID_SET_ALGOPARAMS 的反馈事件
+  SNS_OIS_MANAGER_MSGID_GET_ALGOPARAMS = 1025;
+
+  //SNS_OIS_MANAGER_MSGID_SET_OIS_MODE 的反馈事件
+  SNS_OIS_MANAGER_MSGID_GET_OIS_MODE = 1026;
+
+  //SNS_OIS_MANAGER_MSGID_SET_OIS_AF_CFG 的反馈事件
+  SNS_OIS_MANAGER_MSGID_GET_OIS_AF_CFG = 1027;
+
+  //SET的CMD反馈
+  SNS_OIS_MANAGER_MSGID_OPERATION_EVENT = 1028;
+}
+
+message sns_ois_algo_params_config
+{
+  required int32 ois_gain_x   = 1;
+  required int32 ois_gain_y   = 2;
+  required int32 ois_delay_x  = 3;
+  required int32 ois_delay_y  = 4;
+  required int32 ois_offset_x = 5;
+  required int32 ois_offset_y = 6;
+}
+
+message sns_ois_mode_config
+{
+  required int32 mode         = 1;
+}
+
+message sns_ois_af_config
+{
+  required int32 mode         = 1;
+  required int32 posture      = 2;
+  required int32 af_fb        = 3;
+}
+
+message sns_ois_manager_event
+{
+  repeated float data         = 1;
+  repeated float hall_data    = 2;
+}
+
+message sns_ois_operation_event
+{
+  required int32 msg_id       = 1;
+  required int32 result       = 2;
+}

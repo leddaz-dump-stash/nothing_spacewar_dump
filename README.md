@@ -1,0 +1,14 @@
+# qssi-user 12 SKQ1.211230.001 1666412462 release-keys
+- manufacturer: nothing
+- platform: lahaina
+- codename: Spacewar
+- flavor: qssi-user
+- release: 12
+- id: SKQ1.211230.001
+- incremental: 1666412462
+- tags: release-keys
+- fingerprint: Nothing/Spacewar/Spacewar:12/SKQ1.211230.001/1666412462:user/release-keys
+- is_ab: true
+- brand: Nothing
+- branch: qssi-user-12-SKQ1.211230.001-1666412462-release-keys
+- repo: nothing_spacewar_dump

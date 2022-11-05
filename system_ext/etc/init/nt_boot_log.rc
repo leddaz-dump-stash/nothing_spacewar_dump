@@ -1,0 +1,5 @@
+on post-fs
+    chmod 0770 /mnt/product/nt_log
+    chown root system /mnt/product/nt_log
+    restorecon --recursive /mnt/product/nt_log
+    exec_background  - root system  -- /system_ext/bin/nt_boot_log
